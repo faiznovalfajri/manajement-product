@@ -1,5 +1,7 @@
 import React from 'react'
 import Sidebar from '../components/SIdebar'
+import Header from '../components/Header'
+import { Outlet } from 'react-router-dom'
 
 const DashboardLayout = () => {
   return (
@@ -7,7 +9,10 @@ const DashboardLayout = () => {
         <Sidebar/>
 
         <div className='flex-1'>
-            ini header dan konten
+            <Header/>
+            <div className='flex-1 p-5'>
+              <Outlet/>
+            </div>
         </div>
     </div>
   )

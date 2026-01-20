@@ -37,7 +37,7 @@ const Sidebar = () => {
     return (
         <div className={`${togle ? "w-[80px]": "w-[200px]"} transition-all duration-600 h-full flex flex-col items-center py-5 bg-[#001529]`}>
 
-            <h1 onClick={() => setTogle(!togle)} className='text-xl font-bold text-shadow-md text-white mb-5'>
+            <h1 onClick={() => setTogle(!togle)} className='text-xl font-bold text-shadow-md text-white mb-5 cursor-pointer'>
                 {togle ? "GT" : " Ghania Toko"}
             </h1>
 
