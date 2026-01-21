@@ -1,20 +1,9 @@
 import { SettingOutlined, UserOutlined } from '@ant-design/icons'
 import { Dropdown } from 'antd'
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
 
 
 const Header = () => {
-
-    // untuk pindah halaman
-    const navigate = useNavigate();
-
-    const handlerMenu = ({ key }) => {
-        if (key === "1") {
-            navigate("/profile");
-        }
-    }
-
     
     // menu dropdown
     const items = [
@@ -33,7 +22,7 @@ const Header = () => {
     return (
         <div className='w-full p-5 shadow-md bg-white flex items-center justify-between'>
             <h1 className=' text-xl font-bold text-gray-700'>Ghania Dashboard</h1>
-            <Dropdown menu={{ items, onClick: handlerMenu }} placement='bottom'>
+            <Dropdown menu={{ items }} placement='bottom'>
                 <h1 className='hover:cursor-pointer'>Andi Budi</h1>
             </Dropdown>
         </div>
