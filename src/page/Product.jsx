@@ -9,6 +9,10 @@ const Product = () => {
   const [data, setData] = useState([]);
   const [isOpen, SetIsOpen] = useState(false);
 
+  // jika benar akan update jika salah akan buat data baru (menggunakan if else)
+  const [edited, setEdited] = useState(false);
+  // untuk menangkap id, jika id benar maka akan di update, jika tidak maka id akan di tolak, null = lebih general
+  const [selected, setSelected] = useState(null);
   // untuk menghubungkan Form Ant Design dengan variabel form
   const [form] = Form.useForm();
 
@@ -49,7 +53,7 @@ const Product = () => {
       width: 100,
       render: (data) => (
         <div className='flex items-center gap-3'>
-          <Button type='primary'>
+          <Button onClick={() => handleUpdated(data)} type='primary'>
             <EditOutlined />
           </Button>
           <Button danger type='primary' onClick={() => handleDeleted(data.id)}>
@@ -77,7 +81,7 @@ const Product = () => {
     if (!confirm("are you sure, delete this product ?")) return;
 
     // 2 id untuk menyamakan apakah ketika tombol yang di tekan ada atau tidak ada data di supabase
-    const { error } = await supabase.from("products").delete().eq("id", id)
+    const { error } = await supabase.from("products").delete().eq("id", id);
 
     if (error) {
       console.error(error.message);
@@ -97,16 +101,43 @@ const Product = () => {
       status_product: values.statusProduct
     }
 
-    const { error } = await supabase.from("products").insert(payload);
+    // untuk melakukan update 
+    let query;
+
+    if (edited) {
+      query = await supabase.from("products").update(payload).eq("id", selected);
+    } else {
+      query = await supabase.from("products").insert(payload);
+    }
+
+    const { error } = query;
 
     if (error) return console.error(error.message);
     fetchData();
+    setEdited(false);
     SetIsOpen(false);
+    setSelected(null);
 
     // ketika form di tutup dan dibuka lagi form akan kembali kosong
     form.resetFields();
   }
 
+  // tombol update
+  const handleUpdated = (record) => {
+    // untuk membuka modal
+    SetIsOpen(true);
+    setEdited(true);
+    // hanya mengambil id saja
+    setSelected(record.id);
+
+    // untuk mengambil data dari supabase, dan ditaruh di input, dan input dijadikan properti (dibalik dengan untuk submit)
+    form.setFieldsValue({
+      nameProduct: record.name_product,
+      priceProduct: record.price,
+      stockProduct: record.stock,
+      statusProduct: record.status_product
+    })
+  }
 
   // dijalankan ketika pertama kali di render, dependency [] = hanya di jalankan 1 kali
   useEffect(() => {
