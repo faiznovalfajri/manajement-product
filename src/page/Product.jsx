@@ -11,8 +11,10 @@ const Product = () => {
 
   // jika benar akan update jika salah akan buat data baru (menggunakan if else)
   const [edited, setEdited] = useState(false);
+  
   // untuk menangkap id, jika id benar maka akan di update, jika tidak maka id akan di tolak, null = lebih general
   const [selected, setSelected] = useState(null);
+
   // untuk menghubungkan Form Ant Design dengan variabel form
   const [form] = Form.useForm();
 

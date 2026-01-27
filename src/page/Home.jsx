@@ -1,36 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import supabase from '../utils/supabase';
 
 const Home = () => {
 
-  // data dummy
-  const data = [
-    {
-      key: 1,
-      product: "beng-beng",
-      stock: 14
-    },
-    {
-      key: 2,
-      product: "momogi",
-      stock: 19
-    },
-    {
-      key: 3,
-      product: "choklatos",
-      stock: 8
-    },
-    {
-      key: 4,
-      product: "nabati",
-      stock: 12
-    },
-    {
-      key: 5,
-      product: "coklat dilan",
-      stock: 24
+  // untuk ambil data
+  const [data, setData] = useState([]);
+
+  // ambil data dari supabase
+  const fetchData = async () => {
+    const {data, error} = await supabase.from("products").select("*");
+
+    if (error) {
+      console.error(error.message)
+    } else {
+      setData(data)
     }
-  ]
+  }
+
+  // untuk menampilkan data
+  useEffect(() => {
+    fetchData()
+  }, [])
+   
 
 
   return (
@@ -40,7 +32,7 @@ const Home = () => {
         <BarChart
           data={data}
         >
-          <XAxis dataKey={"product"} />
+          <XAxis dataKey="name_product" />
           <YAxis />
           <Tooltip/>
           <Bar dataKey="stock" fill="#8884d8" />
