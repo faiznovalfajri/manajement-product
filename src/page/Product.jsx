@@ -93,12 +93,11 @@ const Product = () => {
     }
   }
 
-  // untuk bisa menangani insert dan update
+  // untuk bisa menangani insert dan   update
   // bagian kiri di ambil dari tabel di supabase dan di bagian kanan di ambil dari name form
   const handleSubmit = async (values) => {
     const payload = {
       name_product: values.nameProduct,
-      stock: values.stockProduct,
       price: values.priceProduct,
       status_product: values.statusProduct
     }
@@ -196,17 +195,8 @@ const Product = () => {
             <InputNumber style={{ width: "100%" }} placeholder='input price product' />
           </Form.Item>
 
-          {/* input stock product */}
-          <Form.Item
-            label="Stock Product"
-            name={"stockProduct"}
-            rules={[{
-              required: true,
-              message: "input stock product can not be empty"
-            }]}
-          >
-            <InputNumber style={{ width: "100%" }} placeholder='input stock product' />
-          </Form.Item>
+          {/*  dihapus input stock product dan di pindah ke halaman stock */}
+         
 
           {/* select status product */}
           <Form.Item
@@ -232,8 +222,6 @@ const Product = () => {
               </Select.Option>
             </Select>
           </Form.Item>
-
-
         </Form>
       </Modal>
     </div>
