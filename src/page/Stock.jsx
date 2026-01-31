@@ -10,6 +10,12 @@ const Stock = () => {
   const [dataProduct, setDataProduct] = useState([]);
   const [isOpen, SetIsOpen] = useState(false);
 
+  // untuk pagination = curent (untuk menangkap halaman), pageSize (untuk menampilkan berapa data yang akan di tampilkan) 
+  const [pagination, setPagination] = useState({
+    curent: 1,
+    pageSize: 10
+  })
+
   // jika true akan edit, jika false akan create
   const [isEdit, setIsEdit] = useState(false);
 
@@ -57,7 +63,9 @@ const Stock = () => {
       title: 'No',
       dataIndex: '',
       key: 'no',
-      render: (_, __, index) => <p>{index + 1}</p>
+      // jika halaman curent = 1 dan pagesize = 10 === (1 - 1) * 10 + 0 + 1 = 0 * 10 + 1 = 0 + 1 = 1 
+      // index dimulai dari 0
+      render: (_, __, index) => <p>{(pagination.curent - 1) * pagination.pageSize + index + 1}</p>
     },
     {
       title: 'Name Product',
@@ -186,7 +194,14 @@ const Stock = () => {
       <Table
         dataSource={data}
         columns={columns}
-      />;
+        pagination={{
+          current: pagination.curent,
+          pageSize: pagination.pageSize,
+          onChange: (current, pageSize) => setPagination({
+            curent: current, pageSize
+          })
+        }}
+      />
 
       {/* modal untuk bagian tambah stok produk */}
       <Modal

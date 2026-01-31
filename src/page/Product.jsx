@@ -9,6 +9,12 @@ const Product = () => {
   const [data, setData] = useState([]);
   const [isOpen, SetIsOpen] = useState(false);
 
+  // untuk pagination = curent (untuk menangkap halaman), pageSize (untuk menampilkan berapa data yang akan di tampilkan) 
+  const [pagination, setPagination] = useState({
+    curent: 1,
+    pageSize: 10
+  })
+
   // jika benar akan update jika salah akan buat data baru (menggunakan if else)
   const [edited, setEdited] = useState(false);
   
@@ -25,8 +31,9 @@ const Product = () => {
       dataIndex: '',
       key: 'no',
       // yang di pakai hanya parameter 3
-      render: (_, __, index) => <p>{index + 1}</p>
+      render: (_, __, index) => <p>{(pagination.curent - 1) * pagination.pageSize + index + 1}</p>
     },
+    
     {
       title: 'Name Product',
       dataIndex: 'name_product',
@@ -147,7 +154,7 @@ const Product = () => {
 
   return (
     <div className='w-full h-full'>
-      <div className='flex items-center justify-between'>
+      <div className='flex items-center justify-between mb-5'>
         <h1 className='text-lg text-gray-700 font-semibold'>Product Table</h1>
         <Button onClick={() => SetIsOpen(true)} variant='outlined' color='primary'>
           Create Product
@@ -157,6 +164,13 @@ const Product = () => {
       <Table
         dataSource={data}
         columns={columns}
+        pagination= {{
+          current: pagination.curent,
+          pageSize: pagination.pageSize,
+          onChange: (current, pageSize ) => setPagination({
+            curent: current, pageSize
+          })
+        }}
       />
 
       {/* modal untuk bagian tambah produk */}
